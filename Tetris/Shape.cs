@@ -101,14 +101,19 @@ namespace Tetris
 			}
 			return _matrix;
 		}
-		public void RotateShape()
+		public void RotateShape(int dir)
         {
 			int[,] tempMatrix = new int [sizeMatrix, sizeMatrix];
             for (int i = 0; i < sizeMatrix; i++)
             {
                 for (int j = 0; j < sizeMatrix; j++)
                 {
-					tempMatrix[i, j] = matrix[j, (sizeMatrix - 1)-i];
+					if(dir== 1)
+						tempMatrix[i, j] = matrix[j, (sizeMatrix - 1)-i];
+                    else
+                    {
+						tempMatrix[j, (sizeMatrix - 1) - i] = matrix[i, j];
+					}
                 }
             }
 			matrix = tempMatrix;
