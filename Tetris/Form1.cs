@@ -21,6 +21,7 @@ namespace Tetris
         const int MAXCOUNTPLAYERS = 5;
         
         Shape currentShape;
+        Player newPlayerResults;
         int sizeCell;
         int[,] tetrisMap = new int[ROW, COL];
         int linesRemoved;
@@ -30,11 +31,13 @@ namespace Tetris
         int indent;
         bool isPause;
         string namePlayer;
+
         public Form1(string nameUser)
         {
             this.namePlayer = nameUser;
             InitializeComponent();
             this.KeyUp += new KeyEventHandler(keyFunc);
+            
             Init();
         }
         public void Init()
@@ -49,28 +52,25 @@ namespace Tetris
             currentShape = new Shape(3, 0);
             Interval = SPEED;
             label1.Text = "Score: " + score;
-            label1.Location = new Point(310, 50);
+            label1.Location = new Point(310, 255);
             label3.Text = "Level: " + levelGame;
-            label3.Location = new Point(310, 275);
+            label3.Location = new Point(310, 280);
             label2.Text = "Lines: " + linesRemoved;
             label2.Location = new Point(310, 305);
             label4.Text = "Speed: " + Interval;
-            label4.Location = new Point(310, 335);
+            label4.Location = new Point(310, 325);
+            buttonPause.Location = new Point(310, 170);
+            buttonInstruction.Location = new Point(310, 215);
+            listView1.Columns.Clear();
+            listView1.Columns.Add("#", 20, HorizontalAlignment.Center);
+            listView1.Columns.Add("Имя", 55, HorizontalAlignment.Center);
+            listView1.Columns.Add("Счёт", 50, HorizontalAlignment.Center);
+            listView1.Location = new Point(310, 360);
 
 
-            // listView1.Location = new Point(415, 375);
 
-            /* listView1.Items.Clear();
-             for (int i = 0; i < size; i++)
-             {
-                 ListViewItem newItem = new ListViewItem(Convert.ToString(i + 1));
-                 ListViewItem.ListViewSubItem TitleGroup = new ListViewItem.ListViewSubItem(newItem, list_groups[i]->TitleGroup);
-                 ListViewItem::ListViewSubItem ^ NameKurator = gcnew ListViewItem::ListViewSubItem(newItem, list_groups[i]->NameKurator);
-                 newItem->SubItems->Add(TitleGroup);
-                 newItem->SubItems->Add(NameKurator);
-                 ListViewPanel->Items->AddRange(gcnew cli::array < System::Windows::Forms::ListViewItem ^  > (1) { newItem });
-             }*/
-
+            newPlayerResults = new Player(namePlayer, levelGame, score, linesRemoved);
+            UpdateRating(newPlayerResults);
 
             this.DoubleBuffered = true;
             timer1.Interval = Interval;
@@ -148,10 +148,11 @@ namespace Tetris
                             tetrisMap[i, j] = 0;
                         }
                     }
-                    Player newPlayerResults = new Player(namePlayer, score, levelGame, linesRemoved);
+                    newPlayerResults = new Player(namePlayer, levelGame, score, linesRemoved);
                     UpdateRating(newPlayerResults);
                     timer1.Tick -= new EventHandler(update);
                     timer1.Stop();
+
                     Form3 form3 = new Form3(newPlayerResults);
                     form3.Show();
                     Init();
@@ -177,8 +178,21 @@ namespace Tetris
                     ratingPlayer.Add(tempPlayer);
                 }
             }
-            ratingPlayer = CheckingName(ratingPlayer, newPlayerResults);
+            if(newPlayerResults.score > 0)
+                ratingPlayer = CheckingName(ratingPlayer, newPlayerResults);
             ratingPlayer = sortScore(ratingPlayer);
+
+            listView1.Items.Clear();
+            for (int i = 0; i < ratingPlayer.Count; i++)
+            {
+                ListViewItem newItem = new ListViewItem(Convert.ToString(i+1));
+                ListViewItem.ListViewSubItem Name = new ListViewItem.ListViewSubItem(newItem, ratingPlayer[i].namePlayer);
+                ListViewItem.ListViewSubItem Score = new ListViewItem.ListViewSubItem(newItem, Convert.ToString(ratingPlayer[i].score));
+                newItem.SubItems.Add(Name);
+                newItem.SubItems.Add(Score);
+                listView1.Items.AddRange(new ListViewItem[] { newItem });
+            }
+
             for (int i = 0; i < ratingPlayer.Count; i++)
             {
                 ratingPlayer[i].Print();
@@ -250,21 +264,20 @@ namespace Tetris
         {
             int sizeBorder = 5;
             int sizePoint = 3;
-            int indent = 100;
             int indentX1 = 305;
-            int indentY1 = 120;
+            int indentY1 = 120-95;
             int indentX2 = 330;
-            int indentY2 = 120;
+            int indentY2 = 120-95;
             int indentX3 = 330;
-            int indentY3 = 120;
+            int indentY3 = 120-95;
             int indentX4 = 335;
-            int indentY4 = 120;
+            int indentY4 = 120-95;
             int indentX5 = 350;
-            int indentY5 = 130;
+            int indentY5 = 130-95;
             int indentX6 = 315;
-            int indentY6 = 130;
+            int indentY6 = 130-95;
             int indentX7 = 350;
-            int indentY7 = 150;
+            int indentY7 = 150-95;
 
             Color[,] levelColor = new Color[,] {
                         {Color.FromArgb(70, 54, 253), Color.FromArgb(174, 46, 37) }, // blue red
@@ -521,7 +534,7 @@ namespace Tetris
         }
         public void DrawGrid(Graphics e) //Зарисовка карты 
         {
-            e.DrawRectangle(Pens.Black, new Rectangle(315, 100, 130, 160));
+            e.DrawRectangle(Pens.Black, new Rectangle(315, 5, 130, 160));
             for (int i = 0; i <= ROW; i++)
                 e.DrawLine(Pens.Black, new Point(indent, indent + i * sizeCell), new Point(indent + COL * sizeCell, indent + i * sizeCell));
             for (int i = 0; i <= COL; i++)
@@ -533,16 +546,40 @@ namespace Tetris
             DrawMap(e.Graphics);
             ShowNextShape(e.Graphics);
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_MouseClick(object sender, MouseEventArgs e)
         {
+            Pause();
+        }
+        private void listView1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            e.IsInputKey = true;
+        }
+        private void buttonPause_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            e.IsInputKey = true;
+        }
+        private void listView1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+        private void buttonPause_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+        private void buttonInstruction_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+        private void buttonInstruction_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            e.IsInputKey = true;
         }
 
-        private void button1_KeyPress(object sender, KeyPressEventArgs e)
+        private void buttonInstruction_MouseClick(object sender, MouseEventArgs e)
         {
-            Console.WriteLine("Привет! Ты нажал на кнопку!");
-            e.Handled = (e.KeyChar == (char)Keys.Enter | e.KeyChar == (char)Keys.Space);
-            Console.WriteLine(e.Handled);
+            Pause();
+            Form4 form4 = new Form4();
+            form4.Show();
         }
     }
 }
