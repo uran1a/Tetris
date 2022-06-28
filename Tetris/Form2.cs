@@ -15,6 +15,7 @@ namespace Tetris
         public Form2()
         {
             InitializeComponent();
+            this.Icon = new System.Drawing.Icon("N:\\code\\2021\\Study\\c#\\Tetris\\Tetris\\icon.ico");
         }
 
         private void button1_Click(object sender, EventArgs e)

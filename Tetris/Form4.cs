@@ -15,7 +15,7 @@ namespace Tetris
         public Form4()
         {
             InitializeComponent();
-
+            this.Icon = new System.Drawing.Icon("N:\\code\\2021\\Study\\c#\\Tetris\\Tetris\\icon.ico");
             listView1.Columns.Clear();
             listView1.Columns.Add("Кнопка", 65, HorizontalAlignment.Center);
             listView1.Columns.Add("Команда", 165, HorizontalAlignment.Center);

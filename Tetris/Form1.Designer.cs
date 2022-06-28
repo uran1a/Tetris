@@ -86,7 +86,7 @@
             this.labelPause.BackColor = System.Drawing.Color.IndianRed;
             this.labelPause.Font = new System.Drawing.Font("Microsoft Sans Serif", 35F);
             this.labelPause.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.labelPause.Location = new System.Drawing.Point(159, 226);
+            this.labelPause.Location = new System.Drawing.Point(190, 224);
             this.labelPause.Name = "labelPause";
             this.labelPause.Size = new System.Drawing.Size(198, 67);
             this.labelPause.TabIndex = 4;
@@ -143,7 +143,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(782, 1055);
+            this.ClientSize = new System.Drawing.Size(604, 753);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.buttonInstruction);
             this.Controls.Add(this.buttonPause);
@@ -153,8 +153,12 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.KeyPreview = true;
+            this.MaximumSize = new System.Drawing.Size(622, 800);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(622, 800);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Тетрис";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
             this.ResumeLayout(false);
             this.PerformLayout();

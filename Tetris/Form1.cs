@@ -66,7 +66,7 @@ namespace Tetris
             listView1.Columns.Add("Имя", 55, HorizontalAlignment.Center);
             listView1.Columns.Add("Счёт", 50, HorizontalAlignment.Center);
             listView1.Location = new Point(310, 360);
-
+            this.Icon = new System.Drawing.Icon("N:\\code\\2021\\Study\\c#\\Tetris\\Tetris\\icon.ico");
 
 
             newPlayerResults = new Player(namePlayer, levelGame, score, linesRemoved);

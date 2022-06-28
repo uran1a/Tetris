@@ -27,16 +27,17 @@ namespace Tetris
             labelScore.Text = Convert.ToString(score);
             labelLevel.Text = Convert.ToString(levelGame);
             labelLines.Text = Convert.ToString(linesRemoved);
+            this.Icon = new System.Drawing.Icon("N:\\code\\2021\\Study\\c#\\Tetris\\Tetris\\icon.ico");
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
-            // закрыть и timer start
+            this.Close();
         }
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
-            
+            Application.Exit();
         }
     }
 }
