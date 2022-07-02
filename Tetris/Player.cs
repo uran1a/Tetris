@@ -39,7 +39,6 @@ namespace Tetris
             score = Convert.ToInt32(arr[2]);
             lines = Convert.ToInt32(arr[3]);
         }
-
         public string ConstrutcLine()
         {
             string line = namePlayer + ' ' + lvl + ' ' + score + ' ' + lines;

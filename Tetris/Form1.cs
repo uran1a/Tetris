@@ -42,7 +42,6 @@ namespace Tetris
         }
         public void Init()
         {
-
             sizeCell = 30;
             linesRemoved = 0;
             score = 0;
@@ -67,7 +66,6 @@ namespace Tetris
             listView1.Columns.Add("Счёт", 50, HorizontalAlignment.Center);
             listView1.Location = new Point(310, 360);
             this.Icon = new System.Drawing.Icon("N:\\code\\2021\\Study\\c#\\Tetris\\Tetris\\icon.ico");
-
 
             newPlayerResults = new Player(namePlayer, levelGame, score, linesRemoved);
             UpdateRating(newPlayerResults);
@@ -574,7 +572,6 @@ namespace Tetris
         {
             e.IsInputKey = true;
         }
-
         private void buttonInstruction_MouseClick(object sender, MouseEventArgs e)
         {
             Pause();
